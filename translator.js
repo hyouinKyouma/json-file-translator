@@ -2,13 +2,14 @@ const axios = require('axios');
 const fs = require('fs');
 const fsPromises = require('fs').promises;
 
-const pathInputjsonfile = './h0.json'
-const pathoutputjsonfile = './h2.json'
+const pathInputjsonfile = './h0.json' //input json file path
+const pathoutputjsonfile = './h2.json' //outputjson file path
+const sourceLanguage = "en" //language code for english
+const targetLanguage = "hi" //language code for hindi
+const url = 'http://localhost:5000/translate' //localserver link
+
 let inputdata = {}
 let outputobj = {}
-const sourceLanguage = "en"
-const targetLanguage = "hi"
-const url = 'http://localhost:5000/translate'
 
 async function inputdataectiterator() {
     for (let key in inputdata) {
