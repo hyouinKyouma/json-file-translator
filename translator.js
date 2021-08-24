@@ -53,11 +53,6 @@ async function main() {
 
     inputdata = await toreadfile()
     inputdata = JSON.parse(inputdata)
-    // inputdata = {
-    //     "Included holiday": "Included holiday",
-    //     "With checking the box the holiday will be considered in the facility schedule.": "With checking the box the holiday will be considered in the facility schedule."
-    // }
-    // console.log(fileobj)
     await inputdataectiterator()
     fs.readFile(pathoutputjsonfile, 'utf8', (err, data) => {
         if (err) {
