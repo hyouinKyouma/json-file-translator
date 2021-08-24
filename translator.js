@@ -1,56 +1,55 @@
 const axios = require('axios');
 const fs = require('fs');
 const fsPromises = require('fs').promises;
-  
+
 const pathInputjsonfile = './h0.json'
 const pathoutputjsonfile = './h2.json'
 let inputdata = {}
 let outputobj = {}
-const sourceLanguage =  "en"
+const sourceLanguage = "en"
 const targetLanguage = "hi"
 const url = 'http://localhost:5000/translate'
 
-async function inputdataectiterator(){
-    for(let key in inputdata){
-        if(inputdata.hasOwnProperty(key)){
+async function inputdataectiterator() {
+    for (let key in inputdata) {
+        if (inputdata.hasOwnProperty(key)) {
             let convertedResponse = await callTranslator(inputdata[key])
             outputobj[key] = convertedResponse["data"]["translatedText"]
-            // console.log("================>",outputobj)
-        
+
         }
     }
-    console.log("================>",outputobj)
-}     
 
-async function callTranslator(value){
+}
+
+async function callTranslator(value) {
     let body = {
 
-        "q":value,
+        "q": value,
         "source": sourceLanguage,
         "target": targetLanguage
     }
-    try{
-        let response = await  axios.post(url, body)
+    try {
+        let response = await axios.post(url, body)
         return response
-    }catch(error){
-        console.error("ERROR----->"+ error)
+    } catch (error) {
+        console.error("ERROR----->" + error)
     }
-    
+
 }
 
-function toreadfile(){
+function toreadfile() {
 
     return new Promise(function (resolve, reject) {
-        fs.readFile(pathInputjsonfile, 'utf8', function(error, contents) {
-          if (error) reject(error);
-          else resolve(contents);
+        fs.readFile(pathInputjsonfile, 'utf8', function (error, contents) {
+            if (error) reject(error);
+            else resolve(contents);
         });
-      });
+    });
 
-    
+
 }
 
-async function main(){
+async function main() {
 
     inputdata = await toreadfile()
     inputdata = JSON.parse(inputdata)
@@ -60,15 +59,15 @@ async function main(){
     // }
     // console.log(fileobj)
     await inputdataectiterator()
-    fs.readFile(pathoutputjsonfile, 'utf8', (err,data) =>{
-        if(err){
+    fs.readFile(pathoutputjsonfile, 'utf8', (err, data) => {
+        if (err) {
             console.log(err)
-        }else{
+        } else {
             let readObj = JSON.parse(data)
-            totalObj = { 
-                ...readObj, 
+            totalObj = {
+                ...readObj,
                 ...outputobj
-                }
+            }
             newjson = JSON.stringify(totalObj)
             fs.writeFile(pathoutputjsonfile, newjson, 'utf8', (err) => {
 
@@ -77,13 +76,13 @@ async function main(){
                 } else {
                     console.log(`File is written successfully!`);
                 }
-            
+
             });
         }
     })
-    
-    
-   
+
+
+
 
 }
 
